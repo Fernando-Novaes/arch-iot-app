@@ -5,6 +5,7 @@ import br.ufrj.cos.views.archiot.ArchIotView;
 import br.ufrj.cos.views.home.HomeView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
@@ -19,6 +20,7 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 /**
  * The main view is a top-level placeholder for other views.
  */
+@CssImport("./styles/styles.css")
 public class MainLayout extends AppLayout {
 
     private H1 viewTitle;

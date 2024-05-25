@@ -1,5 +1,6 @@
 package br.ufrj.cos.views.archiot;
 
+import br.ufrj.cos.components.treeview.TreeViewComponent;
 import br.ufrj.cos.views.MainLayout;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.H5;
@@ -9,7 +10,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 
-@PageTitle("Arch Iot")
+import java.io.IOException;
+
+@PageTitle("Arch IoT - Tool")
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends Composite<VerticalLayout> {
 
@@ -29,5 +32,13 @@ public class ArchIotView extends Composite<VerticalLayout> {
         getContent().add(layoutColumn2);
         getContent().add(layoutRow);
         layoutRow.add(h5);
+
+        TreeViewComponent treeView = null;
+        try {
+            treeView = new TreeViewComponent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        getContent().add(treeView);
     }
 }

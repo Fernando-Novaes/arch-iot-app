@@ -9,7 +9,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 
-@PageTitle("About")
+@PageTitle("Arch IoT - About")
 @Route(value = "about", layout = MainLayout.class)
 public class AboutView extends Composite<VerticalLayout> {
 
