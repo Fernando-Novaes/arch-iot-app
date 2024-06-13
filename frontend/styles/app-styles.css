@@ -1,0 +1,19 @@
+.iot-domain {
+    color: purple;
+    font-weight: bold;
+}
+
+.architecture-solution {
+    color: blue;
+    font-weight: bold;
+}
+
+.quality-requirement {
+    color: green;
+    font-style: italic;
+}
+
+.technology {
+    color: red;
+    cursor: pointer;
+}

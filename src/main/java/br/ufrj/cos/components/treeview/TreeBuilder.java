@@ -1,23 +1,46 @@
 package br.ufrj.cos.components.treeview;
 
+import br.ufrj.cos.domain.ArchitectureSolution;
+import br.ufrj.cos.domain.IoTDomain;
+import br.ufrj.cos.domain.QualityRequirement;
+import br.ufrj.cos.domain.Technology;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.graph.DefaultDirectedGraph;
+
+import java.util.List;
 
 public class TreeBuilder {
-    public static Graph<String, DefaultEdge> createTree(TreeNode rootNode) {
-        Graph<String, DefaultEdge> tree = new SimpleDirectedGraph<>(DefaultEdge.class);
-        addNodesAndEdges(tree, rootNode, null);
-        return tree;
+
+    public static Graph<Object, DefaultEdge> createTree(List<IoTDomain> rootNodes) {
+        Graph<Object, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
+        for (IoTDomain rootNode : rootNodes) {
+            addNodesAndEdges(graph, rootNode, null);
+        }
+        return graph;
     }
 
-    private static void addNodesAndEdges(Graph<String, DefaultEdge> tree, TreeNode node, String parent) {
-        tree.addVertex(node.getName());
+    private static void addNodesAndEdges(Graph<Object, DefaultEdge> graph, Object node, Object parent) {
+        graph.addVertex(node);
         if (parent != null) {
-            tree.addEdge(parent, node.getName());
+            graph.addEdge(parent, node);
         }
-        for (TreeNode child : node.getChildren()) {
-            addNodesAndEdges(tree, child, node.getName());
+
+        if (node instanceof IoTDomain) {
+            IoTDomain domain = (IoTDomain) node;
+            for (ArchitectureSolution arch : domain.getArchs()) {
+                addNodesAndEdges(graph, arch, node);
+            }
+        } else if (node instanceof ArchitectureSolution) {
+            ArchitectureSolution solution = (ArchitectureSolution) node;
+            for (QualityRequirement qr : solution.getQrs()) {
+                addNodesAndEdges(graph, qr, node);
+            }
+        } else if (node instanceof QualityRequirement) {
+            QualityRequirement qr = (QualityRequirement) node;
+            for (Technology tech : qr.getTechs()) {
+                addNodesAndEdges(graph, tech, node);
+            }
         }
     }
 }

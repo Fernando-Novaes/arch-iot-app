@@ -1,23 +1,158 @@
-{
-  "name": "Root",
-  "children": [
-    {
-      "name": "Child1",
-      "children": [
-        {
-          "name": "GrandChild1",
-          "children": []
-        }
-      ]
-    },
-    {
-      "name": "Child2",
-      "children": [
-        {
-          "name": "GrandChild2",
-          "children": []
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "IoT Domain 1",
+    "archs": [
+      {
+        "id": "1",
+        "name": "Solution 1",
+        "qrs": [
+          {
+            "name": "Quality Requirement 1",
+            "techs": [
+              {
+                "description": "Technology 1-1-1"
+              },
+              {
+                "description": "Technology 1-1-2"
+              },
+              {
+                "description": "Technology 1-1-3"
+              }
+            ]
+          },
+          {
+            "name": "Quality Requirement 2",
+            "techs": [
+              {
+                "description": "Technology 1-2-1"
+              },
+              {
+                "description": "Technology 1-2-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "name": "Solution 2",
+        "qrs": [
+          {
+            "name": "Quality Requirement 3",
+            "techs": [
+              {
+                "description": "Technology 2-1-1"
+              },
+              {
+                "description": "Technology 2-1-2"
+              }
+            ]
+          },
+          {
+            "name": "Quality Requirement 4",
+            "techs": [
+              {
+                "description": "Technology 2-2-1"
+              },
+              {
+                "description": "Technology 2-2-2"
+              }
+            ]
+          },
+          {
+            "name": "Quality Requirement 5",
+            "techs": [
+              {
+                "description": "Technology 2-3-1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "IoT Domain 2",
+    "archs": [
+      {
+        "id": "3",
+        "name": "Solution 3",
+        "qrs": [
+          {
+            "name": "Quality Requirement 6",
+            "techs": [
+              {
+                "description": "Technology 3-1-1"
+              },
+              {
+                "description": "Technology 3-1-2"
+              },
+              {
+                "description": "Technology 3-1-3"
+              }
+            ]
+          },
+          {
+            "name": "Quality Requirement 7",
+            "techs": [
+              {
+                "description": "Technology 3-2-1"
+              },
+              {
+                "description": "Technology 3-2-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Solution 4",
+        "qrs": [
+          {
+            "name": "Quality Requirement 8",
+            "techs": [
+              {
+                "description": "Technology 4-1-1"
+              },
+              {
+                "description": "Technology 4-1-2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "5",
+        "name": "Solution 5",
+        "qrs": [
+          {
+            "name": "Quality Requirement 9",
+            "techs": [
+              {
+                "description": "Technology 5-1-1"
+              },
+              {
+                "description": "Technology 5-1-2"
+              }
+            ]
+          },
+          {
+            "name": "Quality Requirement 10",
+            "techs": [
+              {
+                "description": "Technology 5-2-1"
+              },
+              {
+                "description": "Technology 5-2-2"
+              },
+              {
+                "description": "Technology 5-2-3"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

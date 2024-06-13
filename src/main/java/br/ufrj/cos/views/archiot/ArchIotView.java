@@ -2,8 +2,13 @@ package br.ufrj.cos.views.archiot;
 
 import br.ufrj.cos.components.treeview.TreeViewComponent;
 import br.ufrj.cos.views.MainLayout;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -20,6 +25,7 @@ public class ArchIotView extends Composite<VerticalLayout> {
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         H5 h5 = new H5();
+
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         layoutColumn2.setWidth("100%");
@@ -39,6 +45,22 @@ public class ArchIotView extends Composite<VerticalLayout> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        getContent().add(treeView);
+
+        Details treeViewDetails = new Details("", treeView);
+        treeViewDetails.setOpened(true);
+        treeViewDetails.setWidth("100%");
+        treeViewDetails.setHeight("100%");
+        treeViewDetails.addThemeVariants(DetailsVariant.FILLED);
+        getContent().add(treeViewDetails);
+
+        HorizontalLayout content = new HorizontalLayout(
+                new Span("Test etes tetste tests.")
+        );
+
+        Details details = new Details("Description", content);
+        details.setOpened(true);
+        details.addThemeVariants(DetailsVariant.FILLED);
+
+        getContent().add(details);
     }
 }
