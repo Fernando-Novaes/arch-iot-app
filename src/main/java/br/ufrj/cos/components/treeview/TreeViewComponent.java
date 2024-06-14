@@ -3,71 +3,63 @@ package br.ufrj.cos.components.treeview;
 
 import br.ufrj.cos.components.notification.NotificationDialog;
 import br.ufrj.cos.domain.*;
+import br.ufrj.cos.service.IoTDomainService;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.treegrid.TreeGrid;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static javax.swing.text.StyleConstants.setIcon;
+
+@Component
 @CssImport(value = "./styles/app-styles.css", themeFor = "vaadin-grid")
 public class TreeViewComponent extends VerticalLayout {
 
-    private Graph<Object, DefaultEdge> tree;
+    private final IoTDomainService ioTDomainService;
 
-    public TreeViewComponent() throws IOException {
+    @Autowired
+    public TreeViewComponent(IoTDomainService ioTDomainService) {
+        this.ioTDomainService = ioTDomainService;
+    }
+
+    @PostConstruct
+    public void init() {
         TreeGrid<Object> treeGrid = new TreeGrid<>();
+        List<IoTDomain> rootNodes = ioTDomainService.findAllDomains();
 
-        // Parse the JSON file and create the tree structure
-        List<IoTDomain> rootNodes;
-        try {
-            rootNodes = JsonReader.readJson("C:\\Users\\Fernando\\IdeaProjects\\arch-iot-app\\frontend\\tree.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        tree = TreeBuilder.createTree(rootNodes);
+        treeGrid.addHierarchyColumn(this::getNodeName).setHeader("Name");
+        treeGrid.setItems(ioTDomainService.getChildren(rootNodes));
 
-        // Add columns to the TreeGrid
-        treeGrid.addHierarchyColumn(this::getNodeName).setHeader("IOT DOMAIN -> ARCHITECTURE SOLUTION -> QUALITY REQUIREMENT -> TECHNOLOGY")
-                .setClassNameGenerator(this::getNodeClassName);
+        treeGrid.setHierarchyColumn(new ComponentRenderer<>(item -> {
+            Span nameSpan = new Span(getNodeName(item));
+            Image icon = new Image();
+            setIcon(icon, item);
 
-        // Set the items for the TreeGrid
-        treeGrid.setItems(getTreeRoots(tree), parent -> getChildren(parent, tree));
+            icon.setClassName("tree-icon");
+            Div container = new Div(icon, nameSpan);
+            container.setClassName("tree-item-container");
+            return container;
+        }).toString());
 
-        // Add a click listener to the TreeGrid
         treeGrid.addItemClickListener(event -> {
             Object item = event.getItem();
             if (item instanceof Technology technology) {
-                List<String> path = getPath(technology);
+                List<String> path = ioTDomainService.getPath(technology);
                 NotificationDialog
                         .showNotificationDialogOnBotton(technology.getDescription()+":" ,
                                  String.join(" -> ", path));
             }
         });
 
-        // Add the TreeGrid to the layout
         add(treeGrid);
-    }
-
-    private List<String> getPath(Object leaf) {
-        List<String> path = new ArrayList<>();
-        Object current = leaf;
-        while (current != null) {
-            path.add(0, getNodeName(current));
-            current = getParent(current);
-        }
-        return path;
-    }
-
-    private Object getParent(Object child) {
-        for (DefaultEdge edge : tree.incomingEdgesOf(child)) {
-            return tree.getEdgeSource(edge);
-        }
-        return null;
     }
 
     private String getNodeName(Object node) {
@@ -83,32 +75,15 @@ public class TreeViewComponent extends VerticalLayout {
         return "";
     }
 
-    private Set<Object> getTreeRoots(Graph<Object, DefaultEdge> tree) {
-        Set<Object> allVertices = new HashSet<>(tree.vertexSet());
-        Set<Object> childVertices = tree.edgeSet().stream()
-                .map(tree::getEdgeTarget)
-                .collect(Collectors.toSet());
-        allVertices.removeAll(childVertices);
-        return allVertices;
-    }
-
-    private Collection<Object> getChildren(Object parent, Graph<Object, DefaultEdge> tree) {
-        return tree.outgoingEdgesOf(parent).stream()
-                .map(tree::getEdgeTarget)
-                .collect(Collectors.toSet());
-    }
-
-    private String getNodeClassName(Object node) {
-        if (node instanceof IoTDomain) {
-            return "iot-domain";
-        } else if (node instanceof ArchitectureSolution) {
-            return "architecture-solution";
-        } else if (node instanceof QualityRequirement) {
-            return "quality-requirement";
-        } else if (node instanceof Technology) {
-            return "technology";
+    private void setIcon(Image icon, Object item) {
+        if (item instanceof IoTDomain) {
+            icon.setSrc("images/root-icon.png");
+        } else if (item instanceof ArchitectureSolution) {
+            icon.setSrc("images/collapsible-icon.png");
+        } else if (item instanceof QualityRequirement) {
+            icon.setSrc("images/collapsible-icon.png");
+        } else if (item instanceof Technology) {
+            icon.setSrc("images/leaf-icon.png");
         }
-        return "";
     }
-
 }

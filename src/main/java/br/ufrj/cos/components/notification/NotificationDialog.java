@@ -8,9 +8,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import org.springframework.stereotype.Component;
 
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_TERTIARY_INLINE;
 
+@Component
 public class NotificationDialog {
 
     private static Button createCloseBtn(Notification notification) {

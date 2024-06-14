@@ -1,11 +1,10 @@
 package br.ufrj.cos.components.treeview;
 
-import br.ufrj.cos.domain.ArchitectureSolution;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
+import br.ufrj.cos.domain.IoTDomain;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /***
@@ -15,12 +14,34 @@ import java.util.List;
  *     "quality_requirement": "Security",
  *     "technologies": ""
  */
-@Data
-public class TreeNode {
-    private ArchitectureSolution arch;
+@Setter
+@Getter
+public class TreeNode<T> {
+    private T data;
+    private List<TreeNode<T>> children;
 
-    public static TreeNode fromJson(String filePath) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(filePath), TreeNode.class);
+    public TreeNode(T data) {
+        this.data = data;
+        this.children = new ArrayList<>();
+    }
+
+    public void addChild(TreeNode<T> child) {
+        this.children.add(child);
+    }
+
+    public void removeChild(TreeNode<T> child) {
+        this.children.remove(child);
+    }
+
+    public boolean isLeaf() {
+        return children.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "data=" + data +
+                ", children=" + children +
+                '}';
     }
 }

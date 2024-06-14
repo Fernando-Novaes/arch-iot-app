@@ -2,24 +2,25 @@ package br.ufrj.cos.views.archiot;
 
 import br.ufrj.cos.components.treeview.TreeViewComponent;
 import br.ufrj.cos.views.MainLayout;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
 @PageTitle("Arch IoT - Tool")
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends Composite<VerticalLayout> {
+
+    @Autowired TreeViewComponent treeView;
 
     public ArchIotView() {
         VerticalLayout layoutColumn2 = new VerticalLayout();
@@ -38,13 +39,6 @@ public class ArchIotView extends Composite<VerticalLayout> {
         getContent().add(layoutColumn2);
         getContent().add(layoutRow);
         layoutRow.add(h5);
-
-        TreeViewComponent treeView = null;
-        try {
-            treeView = new TreeViewComponent();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         Details treeViewDetails = new Details("", treeView);
         treeViewDetails.setOpened(true);
