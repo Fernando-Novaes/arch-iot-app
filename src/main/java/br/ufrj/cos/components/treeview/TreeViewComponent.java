@@ -22,8 +22,7 @@ import java.util.*;
 
 import static javax.swing.text.StyleConstants.setIcon;
 
-@SpringComponent
-@UIScope
+@Component
 @CssImport(value = "./styles/app-styles.css", themeFor = "vaadin-grid")
 public class TreeViewComponent extends VerticalLayout {
 
@@ -31,28 +30,30 @@ public class TreeViewComponent extends VerticalLayout {
 
     @Autowired
     public TreeViewComponent(IoTDomainService ioTDomainService) {
+
         this.ioTDomainService = ioTDomainService;
     }
 
-    @PostConstruct
-    private void init() {
-        // Fetch data and build tree
-        TreeNode<IoTDomain> rootNode = ioTDomainService.buildIoTDomainsTree();
-
-        // Create a TreeGrid to display the hierarchical data
-        TreeGrid<TreeNode<IoTDomain>> treeGrid = new TreeGrid<>();
-        treeGrid.setItems(rootNode.getChildren(), TreeNode::getChildren);
-
+    public void load() {
         // Define columns (e.g., displaying IoT Domain names)
-        treeGrid.addComponentColumn(item -> {
-            if (item.getData() != null) {
-                return new Span(item.getData().getName());
+        TreeGrid<TreeNode<?>> treeGrid = new TreeGrid<>();
+        treeGrid.addHierarchyColumn(node -> {
+            Object data = node.getData();
+            if (data instanceof IoTDomain) {
+                return ((IoTDomain) data).getName();
+            } else if (data instanceof ArchitectureSolution) {
+                return ((ArchitectureSolution) data).getName();
+            } else if (data instanceof QualityRequirement) {
+                return ((QualityRequirement) data).getName();
+            } else if (data instanceof Technology) {
+                return ((Technology) data).getDescription();
             }
-            return null;
-        }).setHeader("IoT Domains");
+            return "";
+        }).setHeader("IoT Domain");
 
         // Expand all rows by default
-        treeGrid.expandRecursively(rootNode.getChildren(), 2);
+        TreeNode<Object> root = ioTDomainService.getTree();
+        treeGrid.setItems(root, this::getChildren);
 
         // Add a click listener to the TreeGrid nodes
         treeGrid.addItemClickListener(event -> {
@@ -69,7 +70,7 @@ public class TreeViewComponent extends VerticalLayout {
             }
 
             // Print or display the full path
-            System.out.println("Full path of clicked node: " + pathString.toString());
+            NotificationDialog.showNotificationDialogOnBotton(node.getData().getName(), pathString.toString());
         });
 
         // Add styling variant to the TreeGrid for better visibility
@@ -90,5 +91,13 @@ public class TreeViewComponent extends VerticalLayout {
 
         Collections.reverse(path);
         return path;
+    }
+
+    private List<TreeNode<?>> getChildren(TreeNode<?> node) {
+        return node.getChildren();
+    }
+
+    private TreeNode<IoTDomain> getParentNode(TreeNode<IoTDomain> node) {
+        return node.getParent();
     }
 }

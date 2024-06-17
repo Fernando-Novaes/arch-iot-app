@@ -12,35 +12,34 @@ import java.util.List;
 
 public class TreeBuilder {
 
-    public static Graph<Object, DefaultEdge> createTree(List<IoTDomain> rootNodes) {
-        Graph<Object, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
-        for (IoTDomain rootNode : rootNodes) {
-            addNodesAndEdges(graph, rootNode, null);
+    public TreeNode<IoTDomain> buildTree(IoTDomain domain) {
+        TreeNode<IoTDomain> domainNode = new TreeNode<>(domain);
+
+        for (ArchitectureSolution solution : domain.getArchs()) {
+            TreeNode<ArchitectureSolution> solutionNode = new TreeNode<>(solution);
+            domainNode.addChild(solutionNode);
+
+            for (QualityRequirement qr : solution.getQrs()) {
+                TreeNode<QualityRequirement> qrNode = new TreeNode<>(qr);
+                solutionNode.addChild(qrNode);
+
+                for (Technology tech : qr.getTechs()) {
+                    TreeNode<Technology> techNode = new TreeNode<>(tech);
+                    qrNode.addChild(techNode);
+                }
+            }
         }
-        return graph;
+
+        return domainNode;
     }
 
-    private static void addNodesAndEdges(Graph<Object, DefaultEdge> graph, Object node, Object parent) {
-        graph.addVertex(node);
-        if (parent != null) {
-            graph.addEdge(parent, node);
+    public TreeNode<IoTDomain> buildTree(List<IoTDomain> domains) {
+        TreeNode<IoTDomain> root = new TreeNode<>(null); // Create a root node
+
+        for (IoTDomain domain : domains) {
+            root.addChild(buildTree(domain));
         }
 
-        if (node instanceof IoTDomain) {
-            IoTDomain domain = (IoTDomain) node;
-            for (ArchitectureSolution arch : domain.getArchs()) {
-                addNodesAndEdges(graph, arch, node);
-            }
-        } else if (node instanceof ArchitectureSolution) {
-            ArchitectureSolution solution = (ArchitectureSolution) node;
-            for (QualityRequirement qr : solution.getQrs()) {
-                addNodesAndEdges(graph, qr, node);
-            }
-        } else if (node instanceof QualityRequirement) {
-            QualityRequirement qr = (QualityRequirement) node;
-            for (Technology tech : qr.getTechs()) {
-                addNodesAndEdges(graph, tech, node);
-            }
-        }
+        return root;
     }
 }

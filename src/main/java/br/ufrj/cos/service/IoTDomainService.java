@@ -1,58 +1,57 @@
 package br.ufrj.cos.service;
 
-import br.ufrj.cos.domain.ArchitectureSolution;
+import br.ufrj.cos.components.treeview.TreeBuilder;
 import br.ufrj.cos.domain.IoTDomain;
-import br.ufrj.cos.domain.QualityRequirement;
-import br.ufrj.cos.domain.Technology;
 import br.ufrj.cos.repository.IoTDomainRepository;
-import org.jgrapht.graph.SimpleDirectedGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 import br.ufrj.cos.components.treeview.TreeNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class IoTDomainService {
 
     @Autowired
     private IoTDomainRepository ioTDomainRepository;
+    private TreeBuilder treeBuilder;
 
     public List<IoTDomain> getAllIoTDomains() {
-        return ioTDomainRepository.findAll();
+        return ioTDomainRepository.searchAll();
     }
 
-    public TreeNode<IoTDomain> buildIoTDomainsTree() {
-        List<IoTDomain> ioTDomains = getAllIoTDomains();
-        TreeNode<IoTDomain> rootNode = new TreeNode<>(null); // Assuming you have a TreeNode class
-
-        // Logic to build the tree structure
-        for (IoTDomain ioTDomain : ioTDomains) {
-            TreeNode<IoTDomain> domainNode = new TreeNode<>(ioTDomain);
-            rootNode.addChild(domainNode);
-
-            // Build ArchitectureSolution nodes
-            for (ArchitectureSolution solution : ioTDomain.getArchs()) {
-                TreeNode<ArchitectureSolution> solutionNode = new TreeNode<>(solution);
-                domainNode.addChild(solutionNode);
-
-                // Build QualityRequirement nodes
-                for (QualityRequirement requirement : solution.getQrs()) {
-                    TreeNode<QualityRequirement> requirementNode = new TreeNode<>(requirement);
-                    solutionNode.addChild(requirementNode);
-
-                    // Build Technology nodes
-                    for (Technology technology : requirement.getTechs()) {
-                        TreeNode<Technology> technologyNode = new TreeNode<>(technology);
-                        requirementNode.addChild(technologyNode);
-                    }
-                }
-            }
-        }
-
-        return rootNode;
+    public TreeNode<Object> getTree() {
+        List<IoTDomain> domains = ioTDomainRepository.findAll();
+        this.treeBuilder = new TreeBuilder();
+        return treeBuilder.buildTree(domains);
     }
+
+//    public TreeNode<IoTDomain> buildIoTDomainsTree() {
+//        List<IoTDomain> ioTDomains = getAllIoTDomains();
+//
+//        TreeNode<IoTDomain> rootNode = new TreeNode<>(null);
+//
+//        for (IoTDomain domain : ioTDomains) {
+//            TreeNode<IoTDomain> domainNode = new TreeNode<>(domain);
+//            rootNode.addChild(domainNode);
+//
+//            for (ArchitectureSolution solution : domain.getArchs()) {
+//                TreeNode<IoTDomain> solutionNode = new TreeNode<>(new IoTDomain(solution.getId(), solution.getName(), null));
+//                domainNode.addChild(solutionNode);
+//
+//                for (QualityRequirement qr : solution.getQrs()) {
+//                    TreeNode<IoTDomain> qrNode = new TreeNode<>(new IoTDomain(qr.getId(), qr.getName(), null));
+//                    solutionNode.addChild(qrNode);
+//
+//                    for (Technology tech : qr.getTechs()) {
+//                        TreeNode<IoTDomain> techNode = new TreeNode<>(new IoTDomain(tech.getId(), tech.getDescription(), null));
+//                        qrNode.addChild(techNode);
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//        return rootNode;
+//    }
 }

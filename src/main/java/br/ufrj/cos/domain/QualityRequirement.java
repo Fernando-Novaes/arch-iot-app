@@ -9,14 +9,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Data @AllArgsConstructor
-@NoArgsConstructor @EqualsAndHashCode
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class QualityRequirement {
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Technology> techs;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String name;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Technology> techs;
 }

@@ -7,14 +7,18 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data @AllArgsConstructor
-@NoArgsConstructor @EqualsAndHashCode
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Technology {
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String description;
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String reference;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String description;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String reference;
 }

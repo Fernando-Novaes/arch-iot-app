@@ -14,10 +14,9 @@ import java.util.List;
  *     "quality_requirement": "Security",
  *     "technologies": ""
  */
-@Setter
-@Getter
 public class TreeNode<T> {
-    private T data;
+    private final T data;
+    private TreeNode<T> parent;
     private List<TreeNode<T>> children;
 
     public TreeNode(T data) {
@@ -25,23 +24,24 @@ public class TreeNode<T> {
         this.children = new ArrayList<>();
     }
 
+    public T getData() {
+        return data;
+    }
+
+    public TreeNode<T> getParent() {
+        return parent;
+    }
+
+    public List<TreeNode<T>> getChildren() {
+        return children;
+    }
+
     public void addChild(TreeNode<T> child) {
-        this.children.add(child);
+        child.setParent(this);
+        children.add(child);
     }
 
-    public void removeChild(TreeNode<T> child) {
-        this.children.remove(child);
-    }
-
-    public boolean isLeaf() {
-        return children.isEmpty();
-    }
-
-    @Override
-    public String toString() {
-        return "TreeNode{" +
-                "data=" + data +
-                ", children=" + children +
-                '}';
+    private void setParent(TreeNode<T> parent) {
+        this.parent = parent;
     }
 }

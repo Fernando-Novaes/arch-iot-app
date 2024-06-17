@@ -20,9 +20,8 @@ import java.io.IOException;
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends Composite<VerticalLayout> {
 
-    @Autowired TreeViewComponent treeView;
-
-    public ArchIotView() {
+    @Autowired
+    public ArchIotView(TreeViewComponent treeView) {
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         H5 h5 = new H5();
@@ -46,6 +45,8 @@ public class ArchIotView extends Composite<VerticalLayout> {
         treeViewDetails.setHeight("100%");
         treeViewDetails.addThemeVariants(DetailsVariant.FILLED);
         getContent().add(treeViewDetails);
+
+        treeView.load();
 
         HorizontalLayout content = new HorizontalLayout(
                 new Span("Test etes tetste tests.")

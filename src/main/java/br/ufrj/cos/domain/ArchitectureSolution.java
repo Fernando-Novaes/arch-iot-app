@@ -17,7 +17,7 @@ public class ArchitectureSolution {
     private Long id;
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<QualityRequirement> qrs;
 
 }
