@@ -30,7 +30,6 @@ public class TreeViewComponent extends VerticalLayout {
 
     @Autowired
     public TreeViewComponent(IoTDomainService ioTDomainService) {
-
         this.ioTDomainService = ioTDomainService;
     }
 
@@ -49,28 +48,54 @@ public class TreeViewComponent extends VerticalLayout {
                 return ((Technology) data).getDescription();
             }
             return "";
-        }).setHeader("IoT Domain");
+        }).setHeader("IoT Domain -> Architectural Solution -> Quality Requirement -> Technology/Feature");
 
-        // Expand all rows by default
         TreeNode<Object> root = ioTDomainService.getTree();
-        treeGrid.setItems(root, this::getChildren);
+        treeGrid.setItems(List.of(root), node -> ((TreeNode<?>) node).getChildren());
+
+        treeGrid.setClassNameGenerator(node -> {
+            Object data = node.getData();
+            if (data instanceof IoTDomain) {
+                return "iot-domain";
+            } else if (data instanceof ArchitectureSolution) {
+                return "architecture-solution";
+            } else if (data instanceof QualityRequirement) {
+                return "quality-requirement";
+            } else if (data instanceof Technology) {
+                return "technology";
+            }
+            return "";
+        });
 
         // Add a click listener to the TreeGrid nodes
         treeGrid.addItemClickListener(event -> {
-            TreeNode<IoTDomain> node = event.getItem();
-            List<TreeNode<IoTDomain>> path = getPathToRoot(node);
+            TreeNode<?> node = event.getItem();
+            if (node.getData() instanceof Technology) {
+                List<TreeNode<?>> path = getPathToRoot(node);
 
-            // Construct the full path string
-            StringBuilder pathString = new StringBuilder();
-            for (int i = path.size() - 1; i >= 0; i--) {
-                pathString.append(path.get(i).getData().getName());
-                if (i > 0) {
-                    pathString.append(" > ");
+                // Construct the full path string
+                StringBuilder pathString = new StringBuilder();
+                for (int i = path.size() - 1; i >= 0; i--) {
+                    Object data = path.get(i).getData();
+                    if (data instanceof IoTDomain) {
+                        pathString.append(((IoTDomain) data).getName());
+                    } else if (data instanceof ArchitectureSolution) {
+                        pathString.append(((ArchitectureSolution) data).getName());
+                    } else if (data instanceof QualityRequirement) {
+                        pathString.append(((QualityRequirement) data).getName());
+                    } else if (data instanceof Technology) {
+                        pathString.append(((Technology) data).getDescription());
+                    }
+                    if (i > 0) {
+                        pathString.append(" >> ");
+                    }
                 }
-            }
 
-            // Print or display the full path
-            NotificationDialog.showNotificationDialogOnBotton(node.getData().getName(), pathString.toString());
+                // Print or display the full path
+                NotificationDialog.showNotificationDialogOnBotton(
+                        ((Technology) node.getData()).getDescription(), pathString.toString()
+                );
+            }
         });
 
         // Add styling variant to the TreeGrid for better visibility
@@ -80,24 +105,14 @@ public class TreeViewComponent extends VerticalLayout {
         add(treeGrid);
     }
 
-    private List<TreeNode<IoTDomain>> getPathToRoot(TreeNode<IoTDomain> node) {
-        List<TreeNode<IoTDomain>> path = new ArrayList<>();
-        TreeNode<IoTDomain> current = node;
-
+    private List<TreeNode<?>> getPathToRoot(TreeNode<?> node) {
+        List<TreeNode<?>> path = new ArrayList<>();
+        TreeNode<?> current = node;
         while (current != null) {
             path.add(current);
-            current = getParentNode(current);
+            current = current.getParent();
         }
-
-        Collections.reverse(path);
         return path;
     }
 
-    private List<TreeNode<?>> getChildren(TreeNode<?> node) {
-        return node.getChildren();
-    }
-
-    private TreeNode<IoTDomain> getParentNode(TreeNode<IoTDomain> node) {
-        return node.getParent();
-    }
 }

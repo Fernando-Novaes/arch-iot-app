@@ -24,9 +24,6 @@
         <repository>
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 
@@ -119,7 +116,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -179,6 +175,7 @@
                     </plugin>
                 </plugins>
             </build>
+
         </profile>
 
         <profile>
@@ -224,8 +221,10 @@
                         </configuration>
                     </plugin>
                 </plugins>
+
             </build>
         </profile>
 
     </profiles>
+
 </project>

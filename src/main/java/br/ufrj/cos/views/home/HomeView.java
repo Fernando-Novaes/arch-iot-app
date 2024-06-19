@@ -1,5 +1,6 @@
 package br.ufrj.cos.views.home;
 
+import br.ufrj.cos.views.BaseView;
 import br.ufrj.cos.views.MainLayout;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.H5;
@@ -14,12 +15,12 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 @PageTitle("Arch IoT - Home")
 @Route(value = "", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
-public class HomeView extends Composite<VerticalLayout> {
+public class HomeView extends BaseView {
 
     public HomeView() {
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
-        H5 header = new H5();
+        //header
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         layoutColumn2.setWidth("100%");
@@ -27,10 +28,9 @@ public class HomeView extends Composite<VerticalLayout> {
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
         layoutRow.setHeight("min-content");
-        header.setText("Heading");
-        header.setWidth("max-content");
+
         getContent().add(layoutColumn2);
         getContent().add(layoutRow);
-        layoutRow.add(header);
+        layoutRow.add(this.createHeader("Heading"));
     }
 }

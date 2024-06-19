@@ -33,8 +33,8 @@ public class TreeBuilder {
         return domainNode;
     }
 
-    public TreeNode<IoTDomain> buildTree(List<IoTDomain> domains) {
-        TreeNode<IoTDomain> root = new TreeNode<>(null); // Create a root node
+    public TreeNode<Object> buildTree(List<IoTDomain> domains) {
+        TreeNode<Object> root = new TreeNode<>(null); // Create a root node
 
         for (IoTDomain domain : domains) {
             root.addChild(buildTree(domain));

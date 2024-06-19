@@ -15,9 +15,9 @@ import java.util.List;
  *     "technologies": ""
  */
 public class TreeNode<T> {
-    private final T data;
-    private TreeNode<T> parent;
-    private List<TreeNode<T>> children;
+    private T data;
+    private TreeNode<?> parent;
+    private List<TreeNode<?>> children;
 
     public TreeNode(T data) {
         this.data = data;
@@ -28,20 +28,20 @@ public class TreeNode<T> {
         return data;
     }
 
-    public TreeNode<T> getParent() {
+    public TreeNode<?> getParent() {
         return parent;
     }
 
-    public List<TreeNode<T>> getChildren() {
+    public List<TreeNode<?>> getChildren() {
         return children;
     }
 
-    public void addChild(TreeNode<T> child) {
+    public void addChild(TreeNode<?> child) {
         child.setParent(this);
         children.add(child);
     }
 
-    private void setParent(TreeNode<T> parent) {
+    private void setParent(TreeNode<?> parent) {
         this.parent = parent;
     }
 }

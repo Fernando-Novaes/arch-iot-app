@@ -1,5 +1,5 @@
 .iot-domain {
-    color: purple;
+    color: black;
     font-weight: bold;
 }
 
@@ -10,10 +10,12 @@
 
 .quality-requirement {
     color: green;
-    font-style: italic;
+    font-style: normal;
+    font-weight: bold;
 }
 
 .technology {
     color: red;
     cursor: pointer;
+    font-weight: bold;
 }
