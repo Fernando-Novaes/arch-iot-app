@@ -2,9 +2,6 @@ package br.ufrj.cos.views.home;
 
 import br.ufrj.cos.views.BaseView;
 import br.ufrj.cos.views.MainLayout;
-import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
