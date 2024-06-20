@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.vaadin.flow.component.html.Image;
 import org.jfree.chart.ChartFactory;
@@ -26,9 +27,9 @@ public class ChartComponent {
      * @return Vaadin Image
      * @throws IOException
      */
-    public Image createPieChart(HashMap<String, Integer> dataSet) throws IOException {
-        PieDataset dataset = createDataset(dataSet);
-        JFreeChart chart = createChart(dataset);
+    public Image createPieChart(HashMap<String, Integer> dataSet, String chartTitle) throws IOException {
+        PieDataset chartDataset = createDataset(dataSet);
+        JFreeChart chart = createChart(chartDataset, chartTitle);
 
         File imageFile = File.createTempFile("pie_chart", ".png");
         ChartUtils.saveChartAsPNG(imageFile, chart, 800, 600);
@@ -69,9 +70,9 @@ public class ChartComponent {
         return chartDataset;
     }
 
-    private JFreeChart createChart(PieDataset dataset) {
+    private JFreeChart createChart(PieDataset dataset,String chartTitle) {
         JFreeChart chart = ChartFactory.createPieChart(
-                "Pie Chart Example",
+                chartTitle,
                 dataset,
                 true,
                 true,
@@ -79,12 +80,28 @@ public class ChartComponent {
         );
 
         PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setSectionPaint("Category A", new Color(255, 102, 102));
-        plot.setSectionPaint("Category B", new Color(102, 255, 102));
-        plot.setSectionPaint("Category C", new Color(102, 102, 255));
+        dataset.getKeys().forEach(k->{
+
+            plot.setSectionPaint(k.toString(), this.getRandomColor());
+
+        });
+
         plot.setBackgroundPaint(Color.white);
 
         return chart;
     }
+
+    /***
+     * Random color generator
+     * @return Color
+     */
+    private Color getRandomColor() {
+        final Random RANDOM = new Random();
+        int red = RANDOM.nextInt(256);
+        int green = RANDOM.nextInt(256);
+        int blue = RANDOM.nextInt(256);
+        return new Color(red, green, blue);
+    }
+
 
 }
