@@ -21,8 +21,11 @@ import java.io.IOException;
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends BaseView {
 
+    private final ChartComponent chart;
+
     @Autowired
     public HomeView(ChartComponent chart) throws IOException {
+        this.chart = chart;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         //header
@@ -38,7 +41,11 @@ public class HomeView extends BaseView {
         chart.addData("Quality Requirement", 25);
         chart.addData("Technology", 40);
 
-        Image chartImg = chart.createPieChart("Teste");
-        getContent().add(chartImg);
+
+        getContent().add(this.createChart("Chart Title"));
+    }
+
+    private Image createChart(String chartTitle) throws IOException {
+        return chart.createPieChart("Teste");
     }
 }

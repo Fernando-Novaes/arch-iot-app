@@ -3,6 +3,7 @@ package br.ufrj.cos.views;
 import br.ufrj.cos.views.about.AboutView;
 import br.ufrj.cos.views.archiot.ArchIotView;
 import br.ufrj.cos.views.home.HomeView;
+import br.ufrj.cos.views.qualitreq.QualityReqView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -55,6 +56,7 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOME_SOLID.create()));
         nav.addItem(new SideNavItem("Arch Iot", ArchIotView.class, LineAwesomeIcon.PENCIL_RULER_SOLID.create()));
+        nav.addItem(new SideNavItem("Quality Requirement", QualityReqView.class, LineAwesomeIcon.ADDRESS_BOOK_SOLID.create()));
         nav.addItem(new SideNavItem("About", AboutView.class, LineAwesomeIcon.AT_SOLID.create()));
 
         return nav;

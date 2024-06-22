@@ -15,6 +15,7 @@ import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.util.SortOrder;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,26 @@ public class ChartComponent {
         return this.convertToImage(imageFile);
     }
 
+//    public Image createBarChart() throws IOException {
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//        dataset.addValue(1, "Category 1", "Value 1");
+//        dataset.addValue(4, "Category 1", "Value 2");
+//        dataset.addValue(3, "Category 1", "Value 3");
+//        dataset.addValue(5, "Category 1", "Value 4");
+//
+//        JFreeChart barChart = ChartFactory.createBarChart(
+//                "Bar Chart Example",
+//                "Category",
+//                "Score",
+//                dataset,
+//                PlotOrientation.VERTICAL,
+//                true, true, false);
+//
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        ChartUtils.writeChartAsPNG(outputStream, barChart, 800, 600);
+//        return outputStream.toByteArray();
+//    }
+
     /***
      * get the chart return and convert to Vaadin image
      * @param imageFile
@@ -83,10 +104,6 @@ public class ChartComponent {
     private PieDataset createDataset(List<ChartData> dataSet) {
         DefaultPieDataset chartDataset = new DefaultPieDataset();
 
-        if (this.dataSet.isEmpty()) {
-            throw new IllegalArgumentException("There are no data set.");
-        }
-
         dataSet.forEach(ds -> {
             chartDataset.setValue(ds.getDescription(), ds.getValue());
         });
@@ -96,6 +113,10 @@ public class ChartComponent {
     }
 
     private JFreeChart createChart(PieDataset dataset,String chartTitle) {
+        if (dataset.getKeys().isEmpty()) {
+            throw new IllegalArgumentException("There are no data set.");
+        }
+
         JFreeChart chart = ChartFactory.createPieChart(
                 chartTitle,
                 dataset,
