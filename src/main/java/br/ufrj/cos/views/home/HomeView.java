@@ -26,11 +26,8 @@ import java.util.HashMap;
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends BaseView {
 
-    private final ChartComponent chart;
-
     @Autowired
     public HomeView(ChartComponent chart) throws IOException {
-        this.chart = chart;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         //header
@@ -42,12 +39,11 @@ public class HomeView extends BaseView {
         layoutRow.setWidth("100%");
         layoutRow.setHeight("min-content");
 
-        HashMap<String, Integer> chartDS = new HashMap<>();
-        chartDS.put("chart", 35);
-        chartDS.put("chart-data", 25);
-        chartDS.put("chart-data-data", 40);
+        chart.addData("Architecture", 35);
+        chart.addData("Quality Requirement", 25);
+        chart.addData("Technology", 40);
 
-        Image chartImg = chart.createPieChart(chartDS, "Teste");
+        Image chartImg = chart.createPieChart("Teste");
         getContent().add(chartImg);
     }
 }

@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import com.vaadin.flow.component.html.Image;
+import jakarta.annotation.PostConstruct;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
@@ -22,13 +22,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChartComponent {
 
+    private List<ChartData> dataSet;
+
+    @PostConstruct
+    private void init() {
+        dataSet = new ArrayList<>();
+    }
+
+    /***
+     * Add data to the chartdataset
+     * @param description
+     * @param value
+     */
+    public void addData(String description, Integer value) {
+        dataSet.add(new ChartData(description, value));
+    }
+
     /***
      * Create the Pie chart
      * @return Vaadin Image
      * @throws IOException
      */
-    public Image createPieChart(HashMap<String, Integer> dataSet, String chartTitle) throws IOException {
-        PieDataset chartDataset = createDataset(dataSet);
+    public Image createPieChart(String chartTitle) throws IOException {
+        PieDataset chartDataset = createDataset(this.dataSet);
         JFreeChart chart = createChart(chartDataset, chartTitle);
 
         File imageFile = File.createTempFile("pie_chart", ".png");
@@ -59,11 +75,20 @@ public class ChartComponent {
         return image;
     }
 
-    private PieDataset createDataset(HashMap<String, Integer> dataSet) {
+    /***
+     * Create the Dataset
+     * @param dataSet
+     * @return PieDataset
+     */
+    private PieDataset createDataset(List<ChartData> dataSet) {
         DefaultPieDataset chartDataset = new DefaultPieDataset();
 
-        dataSet.keySet().forEach(k -> {
-            chartDataset.setValue(k, dataSet.get(k));
+        if (this.dataSet.isEmpty()) {
+            throw new IllegalArgumentException("There are no data set.");
+        }
+
+        dataSet.forEach(ds -> {
+            chartDataset.setValue(ds.getDescription(), ds.getValue());
         });
 
         chartDataset.sortByKeys(SortOrder.ASCENDING);
@@ -81,9 +106,7 @@ public class ChartComponent {
 
         PiePlot plot = (PiePlot) chart.getPlot();
         dataset.getKeys().forEach(k->{
-
             plot.setSectionPaint(k.toString(), this.getRandomColor());
-
         });
 
         plot.setBackgroundPaint(Color.white);
