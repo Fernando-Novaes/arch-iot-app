@@ -2,6 +2,7 @@ package br.ufrj.cos.views;
 
 import br.ufrj.cos.components.treeview.TreeViewComponent;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H5;
@@ -9,6 +10,11 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+@CssImport(value = "./styles/app-styles.css")
 public abstract class BaseView extends Composite<VerticalLayout> {
 
     /***
@@ -58,4 +64,22 @@ public abstract class BaseView extends Composite<VerticalLayout> {
         return details;
     }
 
+    /***
+     * Get the value from a property name in a properties file
+     * @param fileName
+     * @param propertyName
+     * @return String
+     */
+    public String getValueFromPropertiesFile(String fileName, String propertyName) throws IOException {
+        Properties properties = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(fileName)) {
+            if (input == null) {
+                throw new IOException("Sorry, unable to find " + fileName);
+            }
+            properties.load(input);
+        } catch (IOException ex) {
+            throw new IOException(ex.getMessage());
+        }
+        return properties.getProperty(propertyName);
+    }
 }
