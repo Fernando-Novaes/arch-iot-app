@@ -35,8 +35,8 @@ public class ChartComponent {
      * @param description
      * @param value
      */
-    public void addData(String description, Integer value) {
-        dataSet.add(new ChartData(description, value));
+    public void addData(String description, Long value, Long totalRecords) {
+        dataSet.add(new ChartData(description, value, totalRecords));
     }
 
     /***
@@ -53,26 +53,6 @@ public class ChartComponent {
 
         return this.convertToImage(imageFile);
     }
-
-//    public Image createBarChart() throws IOException {
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.addValue(1, "Category 1", "Value 1");
-//        dataset.addValue(4, "Category 1", "Value 2");
-//        dataset.addValue(3, "Category 1", "Value 3");
-//        dataset.addValue(5, "Category 1", "Value 4");
-//
-//        JFreeChart barChart = ChartFactory.createBarChart(
-//                "Bar Chart Example",
-//                "Category",
-//                "Score",
-//                dataset,
-//                PlotOrientation.VERTICAL,
-//                true, true, false);
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        ChartUtils.writeChartAsPNG(outputStream, barChart, 800, 600);
-//        return outputStream.toByteArray();
-//    }
 
     /***
      * get the chart return and convert to Vaadin image
@@ -105,7 +85,9 @@ public class ChartComponent {
         DefaultPieDataset chartDataset = new DefaultPieDataset();
 
         dataSet.forEach(ds -> {
-            chartDataset.setValue(ds.getDescription(), ds.getValue());
+            chartDataset.setValue(
+                    String.format("%s: %s%%", ds.getDescription(), Math.ceil((double) ds.getValue() * 100) / ds.getTotalRecordsa()),
+                    ds.getValue());
         });
 
         chartDataset.sortByKeys(SortOrder.ASCENDING);

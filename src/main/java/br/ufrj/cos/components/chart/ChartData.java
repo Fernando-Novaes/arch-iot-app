@@ -10,6 +10,7 @@ import lombok.*;
 public class ChartData {
 
     private String description;
-    private Integer value;
+    private Long value;
+    private Long totalRecordsa;
 
 }

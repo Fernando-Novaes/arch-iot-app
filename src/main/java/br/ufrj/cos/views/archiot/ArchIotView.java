@@ -8,14 +8,28 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 @PageTitle("Arch IoT - Tool")
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends BaseView {
 
     @Autowired
-    public ArchIotView(TreeViewComponent treeView) {
+    private TreeViewComponent treeView;
+
+    @PostConstruct
+    private void init() {
+        getContent().add(this.createTreeViewLayout("", treeView));
+        treeView.load();
+
+        getContent().add(
+                this.createDetailsPanel("Title", "Text Content!!!"));
+    }
+
+    public ArchIotView() {
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         getContent().setWidth("100%");
@@ -27,13 +41,6 @@ public class ArchIotView extends BaseView {
         layoutRow.setHeight("min-content");
         getContent().add(layoutColumn2);
         getContent().add(layoutRow);
-        layoutRow.add(this.createHeader("Heading"));
-
-
-        getContent().add(this.createTreeViewLayout("", treeView));
-        treeView.load();
-
-        getContent().add(
-                this.createDetailsPanel("Title", "Text Content!!!"));
+        layoutRow.add(this.createHeader("Arch-IoT Tool"));
     }
 }
