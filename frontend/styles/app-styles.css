@@ -24,6 +24,8 @@
     color: black;
     font-weight: bold;
     background-color: #f0f0f0; /* Background color for summary */
-    padding: 5px; /* Padding for summary text */
+    padding: 15px; /* Padding for summary text */
     border-radius: 5px;
+    border-width: thin;
+    border-color: black;
 }

@@ -1,4 +1,4 @@
-package br.ufrj.cos.views.home;
+package br.ufrj.cos.views.data;
 
 public record IoTDomainRecord(String description, Long qtd, Long total) {
 }

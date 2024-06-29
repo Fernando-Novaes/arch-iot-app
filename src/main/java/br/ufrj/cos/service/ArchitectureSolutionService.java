@@ -1,0 +1,25 @@
+package br.ufrj.cos.service;
+
+import br.ufrj.cos.repository.ArchitectureSolutionRepository;
+import br.ufrj.cos.repository.QualityRequirementRepository;
+import br.ufrj.cos.views.data.ArchitectureSolutionRecord;
+import br.ufrj.cos.views.data.QualityRequirementRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ArchitectureSolutionService {
+
+    private final ArchitectureSolutionRepository architectureSolutionRepository;
+
+    @Autowired
+    public ArchitectureSolutionService(ArchitectureSolutionRepository architectureSolutionRepository) {
+        this.architectureSolutionRepository = architectureSolutionRepository;
+    }
+
+    public List<ArchitectureSolutionRecord> geArchitectureSolutionCountGroupedByName() {
+        return this.architectureSolutionRepository.countArchitectureSolutionGroupedByName();
+    }
+}

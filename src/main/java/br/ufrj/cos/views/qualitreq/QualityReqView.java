@@ -57,8 +57,10 @@ public class QualityReqView extends BaseView {
         details.addThemeVariants(DetailsVariant.FILLED);
         details.setWidthFull();
         details.addClassName("custom-summary");
-        details.getStyle().set("border-radius", "10px"); // Set border-radius
-        details.getStyle().set("background-color", "#f0f0f0"); // Set background color
+        details.getStyle().set("border-radius", "10px");
+        details.getStyle().set("background-color", "white");
+        details.getStyle().set("border-width", "1px");
+        details.getStyle().set("border-color", "white");
         accordionPanels.forEach(details::add);
 
         return details;
@@ -89,6 +91,7 @@ public class QualityReqView extends BaseView {
         Accordion accordion = new Accordion();
         accordion.setSizeFull();
         qrlInfoPanel = accordion.add(title, vl);
+        qrlInfoPanel.setOpened(true);
 
         return qrlInfoPanel;
     }

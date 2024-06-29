@@ -1,9 +1,9 @@
 package br.ufrj.cos.repository;
 
 
-import br.ufrj.cos.domain.ArchitectureSolution;
-import br.ufrj.cos.domain.IoTDomain;
 import br.ufrj.cos.domain.QualityRequirement;
+import br.ufrj.cos.views.data.IoTDomainRecord;
+import br.ufrj.cos.views.data.QualityRequirementRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +16,6 @@ public interface QualityRequirementRepository extends JpaRepository<QualityRequi
     @Query(value = "select q from QualityRequirement as q")
     List<QualityRequirement> searchAll();
 
+    @Query(value = "SELECT new br.ufrj.cos.views.data.QualityRequirementRecord(i.name, COUNT(i), (SELECT COUNT(*) FROM QualityRequirement i2)) FROM QualityRequirement i GROUP BY i.name")
+    List<QualityRequirementRecord> countQualityRequirementGroupedByName();
 }

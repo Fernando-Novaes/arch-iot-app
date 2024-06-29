@@ -7,29 +7,32 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 
-@Component
+@UIScope
 @PageTitle("Arch IoT - Tool")
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends BaseView {
 
-    @Autowired
     private TreeViewComponent treeView;
 
     @PostConstruct
     private void init() {
-        getContent().add(this.createTreeViewLayout("", treeView));
-        treeView.load();
+        getContent().add(this.createTreeViewLayout("", this.treeView));
+        this.treeView.load();
 
         getContent().add(
                 this.createDetailsPanel("Title", "Text Content!!!"));
     }
 
-    public ArchIotView() {
+    @Autowired
+    public ArchIotView(TreeViewComponent treeView) {
+        this.treeView = treeView;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         getContent().setWidth("100%");

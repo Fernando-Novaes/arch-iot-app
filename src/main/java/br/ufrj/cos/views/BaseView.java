@@ -41,6 +41,7 @@ public abstract class BaseView extends Composite<VerticalLayout> {
         treeViewDetails.setOpened(true);
         treeViewDetails.setWidth("100%");
         treeViewDetails.setHeight("100%");
+        treeViewDetails.getStyle().set("background-color", "#dce8fa");
         treeViewDetails.addThemeVariants(DetailsVariant.FILLED);
 
         return treeViewDetails;
@@ -59,6 +60,7 @@ public abstract class BaseView extends Composite<VerticalLayout> {
 
         Details details = new Details(title, content);
         details.setOpened(true);
+        details.getStyle().set("background-color", "#dce8fa");
         details.addThemeVariants(DetailsVariant.FILLED);
 
         return details;

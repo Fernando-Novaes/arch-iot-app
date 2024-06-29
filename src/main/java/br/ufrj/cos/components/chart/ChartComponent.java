@@ -1,27 +1,23 @@
 package br.ufrj.cos.components.chart;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 
-import com.vaadin.flow.component.html.Image;
+import com.github.appreciated.apexcharts.ApexCharts;
+import com.github.appreciated.apexcharts.ApexChartsBuilder;
+import com.github.appreciated.apexcharts.config.TitleSubtitle;
+import com.github.appreciated.apexcharts.config.builder.ChartBuilder;
+import com.github.appreciated.apexcharts.config.builder.LegendBuilder;
+import com.github.appreciated.apexcharts.config.builder.ResponsiveBuilder;
+import com.github.appreciated.apexcharts.config.chart.Type;
+import com.github.appreciated.apexcharts.config.legend.Position;
+import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
+import com.github.appreciated.apexcharts.config.subtitle.Align;
 import jakarta.annotation.PostConstruct;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtils;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.util.SortOrder;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChartComponent {
+public class ChartComponent extends ApexChartsBuilder {
 
     private List<ChartData> dataSet;
 
@@ -40,93 +36,42 @@ public class ChartComponent {
     }
 
     /***
-     * Create the Pie chart
-     * @return Vaadin Image
-     * @throws IOException
+     * Clear the dataset
      */
-    public Image createPieChart(String chartTitle) throws IOException {
-        PieDataset chartDataset = createDataset(this.dataSet);
-        JFreeChart chart = createChart(chartDataset, chartTitle);
-
-        File imageFile = File.createTempFile("pie_chart", ".png");
-        ChartUtils.saveChartAsPNG(imageFile, chart, 800, 600);
-
-        return this.convertToImage(imageFile);
+    public void cleanDataset() {
+        dataSet.clear();
     }
 
-    /***
-     * get the chart return and convert to Vaadin image
-     * @param imageFile
-     * @return
-     * @throws IOException
-     */
-    private Image convertToImage(File imageFile) throws IOException {
-        byte[] imageBytes = Files.readAllBytes(
-                Paths.get(imageFile.toURI()));
-
-        // Convert to Base64
-        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-        String imageUrl = "data:image/png;base64," + base64Image;
-
-        // Create Vaadin Image component
-        Image image = new Image(imageUrl, "Example image");
-        image.setWidth("600px");
-        image.setHeight("400px");
-
-        return image;
-    }
-
-    /***
-     * Create the Dataset
-     * @param dataSet
-     * @return PieDataset
-     */
-    private PieDataset createDataset(List<ChartData> dataSet) {
-        DefaultPieDataset chartDataset = new DefaultPieDataset();
-
-        dataSet.forEach(ds -> {
-            chartDataset.setValue(
-                    String.format("%s: %s%%", ds.getDescription(), Math.ceil((double) ds.getValue() * 100) / ds.getTotalRecordsa()),
-                    ds.getValue());
+    public ApexCharts createPieChart(String title) {
+        List<String> labels = new ArrayList<>();
+        List<Double> values = new ArrayList<>();
+        this.dataSet.forEach(d -> {
+            labels.add(d.getDescription());
+            values.add(d.getValue().doubleValue());
         });
 
-        chartDataset.sortByKeys(SortOrder.ASCENDING);
-        return chartDataset;
-    }
+        TitleSubtitle titleChart = new TitleSubtitle();
+        titleChart.setText(title);
+        titleChart.setAlign(Align.CENTER);
 
-    private JFreeChart createChart(PieDataset dataset,String chartTitle) {
-        if (dataset.getKeys().isEmpty()) {
-            throw new IllegalArgumentException("There are no data set.");
-        }
+        ApexChartsBuilder b = withChart(ChartBuilder.get().withType(Type.PIE).build())
+                .withLabels(labels.toArray(value ->
+                        new String[value]))
+                .withTitle(titleChart)
+                .withLegend(LegendBuilder.get()
+                        .withPosition(Position.BOTTOM)
+                        .build())
+                .withSeries(values.toArray(new Double[values.size()]))
+                .withResponsive(ResponsiveBuilder.get()
+                        .withBreakpoint(480.0)
+                        .withOptions(OptionsBuilder.get()
+                                .withLegend(LegendBuilder.get()
+                                        .withPosition(Position.BOTTOM)
+                                        .build())
+                                .build())
+                        .build());
 
-        JFreeChart chart = ChartFactory.createPieChart(
-                chartTitle,
-                dataset,
-                true,
-                true,
-                false
-        );
-
-        PiePlot plot = (PiePlot) chart.getPlot();
-        dataset.getKeys().forEach(k->{
-            plot.setSectionPaint(k.toString(), this.getRandomColor());
-        });
-
-        plot.setBackgroundPaint(Color.white);
-
-        return chart;
-    }
-
-    /***
-     * Random color generator
-     * @return Color
-     */
-    private Color getRandomColor() {
-        final Random RANDOM = new Random();
-        int red = RANDOM.nextInt(256);
-        int green = RANDOM.nextInt(256);
-        int blue = RANDOM.nextInt(256);
-        return new Color(red, green, blue);
+        return b.build();
     }
 
 
