@@ -58,9 +58,9 @@ public class ChartComponent extends ApexChartsBuilder {
                 .withLabels(labels.toArray(value ->
                         new String[value]))
                 .withTitle(titleChart)
-                .withLegend(LegendBuilder.get()
-                        .withPosition(Position.BOTTOM)
-                        .build())
+//                .withLegend(LegendBuilder.get()
+//                        .withPosition(Position.BOTTOM)
+//                        .build())
                 .withSeries(values.toArray(new Double[values.size()]))
                 .withResponsive(ResponsiveBuilder.get()
                         .withBreakpoint(480.0)

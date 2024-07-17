@@ -6,7 +6,6 @@ import br.ufrj.cos.views.home.HomeView;
 import br.ufrj.cos.views.qualitreq.QualityReqView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;

@@ -79,7 +79,8 @@
     "date-fns": "2.29.3",
     "lit": "3.1.2",
     "onecolor": "4.1.0",
-    "proj4": "2.9.2"
+    "proj4": "2.9.2",
+    "vis-network": "9.0.5"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "5.0.5",
@@ -177,7 +178,8 @@
       "date-fns": "2.29.3",
       "lit": "3.1.2",
       "onecolor": "4.1.0",
-      "proj4": "2.9.2"
+      "proj4": "2.9.2",
+      "vis-network": "9.0.5"
     },
     "devDependencies": {
       "@rollup/plugin-replace": "5.0.5",
@@ -197,7 +199,7 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "f60eb0845d6c626d3fcb0c4212abf832b03ceabbca813c318da6f161c002d1d3"
+    "hash": "38140d041b680ccd36a61c5c4bd10dd716584afcb1515ae17c24873ff9d4a571"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -276,6 +278,7 @@
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
     "date-fns": "$date-fns",
     "apexcharts": "$apexcharts",
-    "onecolor": "$onecolor"
+    "onecolor": "$onecolor",
+    "vis-network": "$vis-network"
   }
 }
