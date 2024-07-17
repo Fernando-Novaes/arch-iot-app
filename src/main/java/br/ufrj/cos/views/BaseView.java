@@ -3,6 +3,7 @@ package br.ufrj.cos.views;
 import br.ufrj.cos.components.treeview.TreeViewComponent;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H5;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @CssImport(value = "./styles/app-styles.css")
+@JavaScript(value = "./js/vis-network.min.js")
 public abstract class BaseView extends Composite<VerticalLayout> {
 
     /***

@@ -31,7 +31,7 @@ import java.util.List;
 @Route(value = "", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @PageTitle("Arch IoT - Home")
-@JavaScript(value = "https://unpkg.com/vis-network/standalone/umd/vis-network.min.js")
+//@JavaScript(value = "https://unpkg.com/vis-network/standalone/umd/vis-network.min.js")
 public class HomeView extends BaseView {
 
     private final ChartComponent chart;

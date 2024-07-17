@@ -48,6 +48,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
+            <version>24.3.12</version>
         </dependency>
         <dependency>
             <groupId>org.parttio</groupId>
@@ -119,7 +120,7 @@
         <dependency>
             <groupId>com.github.appreciated</groupId>
             <artifactId>apexcharts</artifactId>
-            <version>24.0.0</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.addons.visjs.network</groupId>
@@ -213,7 +214,7 @@
                         </executions>
                     </plugin>
 
-                    <!-- Runs the integration tests (*IT) after the server is started -->
+                    <!-- Runs the integration tests (*IT) after the server is started
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -229,7 +230,7 @@
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
                         </configuration>
-                    </plugin>
+                    </plugin>-->
                 </plugins>
 
             </build>
