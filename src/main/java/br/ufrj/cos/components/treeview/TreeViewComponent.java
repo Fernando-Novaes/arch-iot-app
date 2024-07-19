@@ -23,7 +23,6 @@ import java.util.*;
 import static javax.swing.text.StyleConstants.setIcon;
 
 @Component
-@UIScope
 @CssImport(value = "./styles/app-styles.css", themeFor = "vaadin-grid")
 public class TreeViewComponent extends VerticalLayout {
 

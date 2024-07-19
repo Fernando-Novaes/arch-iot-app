@@ -55,7 +55,8 @@ public class ChartComponent extends ApexChartsBuilder {
         titleChart.setAlign(Align.CENTER);
 
         ApexChartsBuilder b = withChart(ChartBuilder.get().withType(Type.PIE).build())
-                .withLabels(labels.toArray(value -> new String[value]))
+                .withLabels(labels.toArray(value ->
+                        new String[value]))
                 .withTitle(titleChart)
 //                .withLegend(LegendBuilder.get()
 //                        .withPosition(Position.BOTTOM)

@@ -3,7 +3,7 @@ package br.ufrj.cos.service;
 import br.ufrj.cos.components.treeview.TreeBuilder;
 import br.ufrj.cos.domain.IoTDomain;
 import br.ufrj.cos.repository.IoTDomainRepository;
-import br.ufrj.cos.views.data.IoTDomainRecord;
+import br.ufrj.cos.components.chart.data.IoTDomainRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.ufrj.cos.components.treeview.TreeNode;

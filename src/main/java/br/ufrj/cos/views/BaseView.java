@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @CssImport(value = "./styles/app-styles.css")
-@JavaScript(value = "./js/vis-network.min.js")
 public abstract class BaseView extends Composite<VerticalLayout> {
 
     /***

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
 @UIScope
-@PageTitle("Arch IoT - Tool")
+@PageTitle("IoT Arch - Wiki")
 @Route(value = "arch-iot", layout = MainLayout.class)
 public class ArchIotView extends BaseView {
 
